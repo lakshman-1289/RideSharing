@@ -84,6 +84,20 @@ AuthController.java
 AuthService.java
  to see how accounts are created and authenticated.
 
+```
+CommandLineRunner is a Spring Boot startup interface used to execute code automatically after the entire application context is initialized.
+
+PendingRegistration exists to temporarily store unverified user data until OTP/email verification succeeds, preventing fake or incomplete users from entering the main users table and related system relationships.
+
+Even though the gateway validates the JWT, the microservice still needs Authentication to know which authenticated user is making the request and to enforce business-level authorization securely.
+```
+
+change = ```
+Your project currently mixes two different email-verification architectures: PendingRegistration (temporary staging approach) and User.emailVerified (single-table verification approach), which creates redundancy because both solve the same problem differently.
+
+```
+
+
  
 
 Step 4: Core Core Domain Service (Rides & Bookings)

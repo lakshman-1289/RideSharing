@@ -67,18 +67,18 @@ public class DataInitializer implements CommandLineRunner {
         }
         
         // Create default admin user if it doesn't exist
-        if (adminRole != null && !userRepository.existsByEmail("admin2273@gmail.com")) {
+        if (adminRole != null && !userRepository.existsByEmail("ridesharing1289@gmail.com")) {
             User adminUser = new User();
-            adminUser.setEmail("admin2273@gmail.com");
+            adminUser.setEmail("ridesharing@gmail.com");
             adminUser.setPhone("1234567890");
             adminUser.setName("System Administrator");
             // Hash password: reddi2273
-            adminUser.setPasswordHash(passwordEncoder.encode("reddi2273"));
+            adminUser.setPasswordHash(passwordEncoder.encode("123456"));
             adminUser.setRole(adminRole);
             adminUser.setStatus(User.UserStatus.ACTIVE);
             adminUser.setEmailVerified(Boolean.TRUE);
             userRepository.save(adminUser);
-            System.out.println("Created default admin user: admin2273@gmail.com");
+            System.out.println("Created default admin user: ridesharing1289@gmail.com");
         }
     }
 }
