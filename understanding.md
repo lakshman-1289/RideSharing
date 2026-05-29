@@ -119,6 +119,13 @@ Inspect
 
 UserServiceClient.java
  to see how domain data is dynamically enriched from other microservices using OpenFeign.
+
+```
+The Ride Service does not own user accounts or wallet records. It uses Spring Cloud OpenFeign interfaces to query external services dynamically.
+
+
+```
+
 Step 5: Transactional Domain Service (Payments)
 Open 
 

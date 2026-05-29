@@ -1,0 +1,91 @@
+import { useState } from 'react'
+import PropTypes from 'prop-types'
+import {
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  Stack,
+  Toolbar,
+  Typography,
+} from '@mui/material'
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
+import AddRoadRoundedIcon from '@mui/icons-material/AddRoadRounded'
+import DirectionsCarFilledRoundedIcon from '@mui/icons-material/DirectionsCarFilledRounded'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+
+import SearchDialog from '../rides/SearchDialog'
+import NotificationBell from '../notifications/NotificationBell'
+
+const TopBar = ({ drawerWidth }) => {
+  const navigate = useNavigate()
+  const { user } = useSelector((state) => state.auth)
+  const [searchDialogOpen, setSearchDialogOpen] = useState(false)
+
+  return (
+    <AppBar
+      position="fixed"
+      elevation={0}
+      sx={{
+        width: `calc(100% - ${drawerWidth}px)`,
+        ml: `${drawerWidth}px`,
+        backgroundColor: '#ffffff',
+        color: 'text.primary',
+        borderBottom: '1px solid rgba(15, 23, 42, 0.08)',
+      }}
+    >
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', gap: 2 }}>
+        <Box display="flex" alignItems="center" gap={2}>
+          <DirectionsCarFilledRoundedIcon color="primary" />
+        </Box>
+
+        <Stack direction="row" alignItems="center" spacing={2}>
+          {/* Hide Search and Post Ride buttons for admin users */}
+          {user?.role !== 'ADMIN' && (
+            <>
+              <Button
+                color="primary"
+                variant="outlined"
+                startIcon={<SearchRoundedIcon />}
+                onClick={() => setSearchDialogOpen(true)}
+                sx={{ display: { xs: 'none', sm: 'flex' } }}
+              >
+                Search
+              </Button>
+              <Button
+                color="primary"
+                variant="contained"
+                startIcon={<AddRoadRoundedIcon />}
+                onClick={() => navigate('/rides/post')}
+                sx={{ display: { xs: 'none', sm: 'flex' } }}
+              >
+                Post Ride
+              </Button>
+            </>
+          )}
+          <NotificationBell />
+          <Box display="flex" alignItems="center" gap={1}>
+            <Avatar sx={{ bgcolor: 'primary.main' }}>
+              {user?.name?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || 'U'}
+            </Avatar>
+            <Typography variant="subtitle2" fontWeight={600}>
+              {user?.name || user?.email || 'User'}
+            </Typography>
+          </Box>
+        </Stack>
+      </Toolbar>
+      <SearchDialog 
+        open={searchDialogOpen} 
+        onClose={() => setSearchDialogOpen(false)} 
+      />
+    </AppBar>
+  )
+}
+
+TopBar.propTypes = {
+  drawerWidth: PropTypes.number.isRequired,
+}
+
+export default TopBar
+
